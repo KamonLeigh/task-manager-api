@@ -122,5 +122,24 @@ test('Should not update invalid user field', async () => {
             .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send({ location: 'london'})
             .expect(400)
-})
+});
+
+test('Should not allow user to sign in with email already on the db', async () => {
+        await request(app)
+            .post('/users')
+            .send({
+                name: 'Andrew',
+                email: userOne.email,
+                password: 'mypass777!'
+            }).expect(400)
+});
+
+test('Should not update user if unauthenticated',  async () => {
+             await request(app)
+                    .patch('/users/me')
+                    .send({ name: 'Mike'})
+                    .expect(401)
+
+
+});
 
