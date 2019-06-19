@@ -143,3 +143,17 @@ test('Should not update user if unauthenticated',  async () => {
 
 });
 
+
+test('Should not delete user if unauthenticated, no data send', async () => {
+    await request(app)
+            .patch('/users/me')
+            .send()
+            .expect(401)
+});
+
+test('Should not delete user if no token is send', async () => {
+        await request(app)
+                .patch('/users/me')
+                .send({_id: userOneId})
+                .expect(401)
+})
